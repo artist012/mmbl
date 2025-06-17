@@ -728,7 +728,7 @@ function updateBattleHistory() {
                         <span class="stat-value">${battle.totalDamage.toLocaleString()}</span>
                     </div>
                     <div class="history-stat">
-                        <span class="stat-label">RDPS:</span>
+                        <span class="stat-label">DPS:</span>
                         <span class="stat-value">${battle.raidDps.toLocaleString()}</span>
                     </div>
                     <div class="history-stat">
