@@ -287,9 +287,8 @@ def main():
             try:
                 time.sleep(0.3)  
                 os.remove(delete_path)
-                print(f"[✓] 원본 파일 삭제됨: {delete_path}")
-            except Exception as e:
-                print(f"[!] 원본 삭제 실패: {e}")
+            except :
+                pass
         pkt_q = queue.Queue()
         evt_q = queue.Queue()
 
