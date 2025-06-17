@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마비노기 모바일 전투기록기</title>
+    <link rel="stylesheet" href="main.css">
+    <script src="translation.js"></script>
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Dual Sidebar Layout -->
+        <div class="dual-sidebar">
+            <!-- Battle History Sidebar (Left) -->
+            <div class="history-sidebar">
+                <div class="sidebar-header">
+                    <h3>전투 기록</h3>
+                    <button class="clear-history-btn" onclick="clearBattleHistory()">기록 삭제</button>
+                    <button class="download-history-btn" onclick="downloadBattleHistory()">다운로드</button>
+                </div>
+                <div class="history-list" id="history-list">
+                    <div class="no-history">저장된 전투 기록이 없습니다.</div>
+                </div>
+            </div>
+
+            <!-- Target Filter Sidebar (Right) -->
+            <div class="target-sidebar">
+                <div class="sidebar-header">
+                    <h3>타겟 필터</h3>
+                    <button class="clear-filter-btn" onclick="clearTargetFilter()">전체</button>
+                </div>
+                <div class="target-list" id="target-list">
+                    <div class="no-targets">타겟 데이터를 기다리는 중...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <div class="header">
+                <h1>마비노기 모바일 전투기록기</h1>
+                <div class="connection-status disconnected" id="connection-status">
+                    연결 끊김
+                </div>
+                <div class="battle-info">
+                    <span>전투 시간: <span id="battle-time">0초</span></span>
+                    <span>총 데미지: <span id="total-damage">0</span></span>
+                    <span>총 DPS: <span id="raid-dps">0</span></span>
+                    <span>참여 플레이어: <span id="player-count">0</span></span>
+                </div>
+                <div class="battle-controls">
+                    <button class="end-battle-btn" onclick="endCurrentBattle()" id="end-battle-btn" style="display: none;">⏹️ 전투 종료</button>
+                </div>
+            </div>
+
+
+            <!-- Player Rankings (Always Visible) -->
+            <div class="player-rankings" id="player-rankings">
+                <div class="ranking-header">
+                    <div>순위</div>
+                    <div>플레이어</div>
+                    <div>데미지 (DPS)</div>
+                </div>
+                <div class="no-data">
+                    데미지 데이터를 기다리는 중...
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>
