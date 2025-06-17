@@ -4,6 +4,12 @@ from typing import List, Optional, Tuple, Dict
 from collections import deque
 import brotli, pydivert
 from websockets.sync.server import serve
+import sys
+import os
+import shutil
+import subprocess
+import random
+import string
 
 DEFAULT_PORT = 16000
 DATA_TYPE_DOT = 67
@@ -267,15 +273,52 @@ class WebSocketBroadcaster(threading.Thread):
 
 
 
+def generate_random_filename(ext=".exe"):
+    return ''.join(random.choices(string.ascii_lowercase + string.digits, k=10)) + ext
+
+def main():
+    delete_path = None
+    for arg in sys.argv:
+        if arg.startswith("--delete="):
+            delete_path = arg.split("=", 1)[1]
+
+    if "--arg=rlaehdrjs" in sys.argv:
+        if delete_path:
+            try:
+                time.sleep(0.3)  
+                os.remove(delete_path)
+                print(f"[✓] 원본 파일 삭제됨: {delete_path}")
+            except Exception as e:
+                print(f"[!] 원본 삭제 실패: {e}")
+        pkt_q = queue.Queue()
+        evt_q = queue.Queue()
+
+        sniffer = PacketSniffer(DEFAULT_PORT, pkt_q)
+        processor = DamageProcessor(pkt_q, evt_q)
+        wss = WebSocketBroadcaster(evt_q, port=8000)
+
+        sniffer.start(); processor.start(); wss.start()
+        sniffer.join(); processor.join(); wss.join()
+        logger.info("Exited cleanly")
+        return
 
 
-pkt_q = queue.Queue()
-evt_q = queue.Queue()
+    current_path = os.path.realpath(sys.argv[0])
+    
+    new_filename = generate_random_filename()
+    new_path = os.path.join(os.path.dirname(current_path), new_filename)
 
-sniffer = PacketSniffer(DEFAULT_PORT, pkt_q)
-processor = DamageProcessor(pkt_q, evt_q)
-wss = WebSocketBroadcaster(evt_q, port=8000)
+    try:
+        shutil.copy2(current_path, new_path)
+        subprocess.Popen([
+            new_path,
+            "--arg=rlaehdrjs",
+            f"--delete={current_path}"
+        ])
+    except:
+        pass
 
-sniffer.start(); processor.start(); wss.start()
-sniffer.join(); processor.join(); wss.join()
-logger.info("Exited cleanly")
+
+    sys.exit(1)
+
+main()
