@@ -12,6 +12,7 @@
         const glitchChance = 0.2; // 몇 글자를 랜덤하게 바꿀 확률
         return original.split('').map(c => {
             return Math.random() < glitchChance ? chars[Math.floor(Math.random() * chars.length)] : c;
+        }).join('');
         }
 
         setInterval(() => {
